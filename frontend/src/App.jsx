@@ -7,7 +7,7 @@ import Property from "./pages/Property";
 import Bookings from "./pages/Bookings";
 import Favourites from "./pages/Favourites";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devTools";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import UserDetailsContext from "./context/UserDetailsContext";
