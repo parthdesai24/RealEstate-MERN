@@ -5,12 +5,17 @@ import { toast } from "react-toastify";
 export const api = axios.create({
   baseURL: "real-estate-backned.vercel.app/api",
 });
+const baseURL="https://real-estate-backned.vercel.app/api";
 
 export const getAllProperties = async () => {
   try {
-    const response = await api.get("/residency/allresd", {
-      timeout: 10 * 1000,
-    });
+    console.log("apiii", api);
+    const response = await axios.get(
+      `${baseURL}/residency/allresd`,
+      {
+        timeout: 10 * 1000,
+      }
+    );
     if (response.status === 400 || response.status === 500) {
       throw response.data;
     }
@@ -24,7 +29,7 @@ export const getAllProperties = async () => {
 
 export const getProperty = async (id) => {
   try {
-    const response = await api.get(`/residency/${id}`, {
+    const response = await axios.get(`${baseURL}/residency/${id}`, {
       timeout: 10 * 1000,
     });
     if (response.status === 400 || response.status === 500) {
@@ -40,8 +45,8 @@ export const getProperty = async (id) => {
 
 export const createUser = async (email, token) => {
   try {
-    await api.post(
-      "/user/register",
+    await axios.post(
+      `${baseURL}/user/register`,
       { email },
       {
         headers: {
@@ -57,8 +62,8 @@ export const createUser = async (email, token) => {
 
 export const bookVisit = async (date, propertyId, email, token) => {
   try {
-    await api.post(
-      `/user/bookVisit/${propertyId}`,
+    await axios.post(
+      `${baseURL}/user/bookVisit/${propertyId}`,
       {
         email,
         id: propertyId,
@@ -78,8 +83,8 @@ export const bookVisit = async (date, propertyId, email, token) => {
 
 export const removeBooking = async (id, email, token) => {
   try {
-    await api.post(
-      `/user/removeBooking/${id}`,
+    await axios.post(
+      `${baseURL}/user/removeBooking/${id}`,
       { email },
       {
         headers: {
@@ -95,8 +100,8 @@ export const removeBooking = async (id, email, token) => {
 
 export const toFav = async (id, email, token) => {
   try {
-    await api.post(
-      `/user/toFav/${id}`,
+    await axios.post(
+      `${baseURL}/user/toFav/${id}`,
       { email },
       {
         headers: {
@@ -112,8 +117,8 @@ export const toFav = async (id, email, token) => {
 export const getAllFav = async (email, token) => {
   if (!token) return;
   try {
-    const res = await api.post(
-      "/user/allFav",
+    const res = await axios.post(
+      `${baseURL}/user/allFav`,
       { email },
       {
         headers: {
@@ -132,8 +137,8 @@ export const getAllFav = async (email, token) => {
 export const getAllBookings = async (email, token) => {
   if (!token) return;
   try {
-    const res = await api.post(
-      "/user/allBookings",
+    const res = await axios.post(
+      `${baseURL}/user/allBookings`,
       { email },
       {
         headers: {
@@ -152,7 +157,7 @@ export const createResidency = async (data, token, userEmail) => {
   const requestData = { ...data, userEmail };
   // console.log(requestData);
   try {
-    const res = await api.post("/residency/create", requestData, {
+    const res = await axios.post(`${baseURL}/residency/create`, requestData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
