@@ -66,7 +66,7 @@ const Properties = () => {
           className="h-[488px] md:h-[533px] xl:h-[422px] mt-5"
         >
           {data.slice(0,6).map((property) => (
-            <SwiperSlide key={property.title}>
+            <SwiperSlide key={property.id}>
               <Item property={property}/>
             </SwiperSlide>  
           ))}
