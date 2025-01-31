@@ -30,6 +30,12 @@ const Header = () => {
 
     const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0()
     
+    const handleLogin = () => {
+      loginWithRedirect({
+        redirectUri: "https://estatemap.vercel.app",
+      });
+    };
+    
   return (
     <header className={`${active ? "py-1 bg-white shadow-md" : "py-2"} max-padd-container fixed top-0 w-full left-0 right-0 z-50 transition-all duration-200`}>
       <div className="flexBetween">
@@ -66,7 +72,7 @@ const Header = () => {
               className="xl:hidden cursor-pointer text-3xl hover:text-secondary"
             />
           )}
-          {!isAuthenticated ? <button onClick={loginWithRedirect} className="flexCenter gap-x-2 !px-5 btn-dark cursor-pointer">
+          {!isAuthenticated ? <button onClick={handleLogin} className="flexCenter gap-x-2 !px-5 btn-dark cursor-pointer">
             <LuUserRound className="text-xl cursor-pointer"/>
             <span>Log In</span>
           </button> : 
