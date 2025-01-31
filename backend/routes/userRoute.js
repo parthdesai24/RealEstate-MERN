@@ -11,7 +11,7 @@ import jwtCheck from "../config/auth0Config.js";
 
 const router = express.Router();
 
-router.post("/register", createUser);
+router.post("/register", jwtCheck, createUser);
 router.post("/bookVisit/:id", jwtCheck, bookVisit);
 router.post("/allBookings", allBookings);
 router.post("/removeBooking/:id", jwtCheck, cancelBooking);

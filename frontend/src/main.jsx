@@ -14,7 +14,7 @@ createRoot(document.getElementById("root")).render(
     authorizationParams={{
       redirect_uri: "https://estatemap.vercel.app",
     }}
-    audience="https://estatemap.vercel.app.api"
+    audience="http://localhost:3000"
     scope="openid profile email"
   >
     <MantineProvider>
