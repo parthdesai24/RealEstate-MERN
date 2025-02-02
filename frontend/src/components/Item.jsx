@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaHeart } from "react-icons/fa";
 import { MdOutlineBathtub, MdOutlineBed, MdOutlineGarage } from "react-icons/md";
@@ -8,7 +8,9 @@ import HeartBtn from "./HeartBtn";
 
 const Item = ({ property }) => {
   const navigate = useNavigate();
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <motion.div
       onClick={() => navigate(`../listing/${property.id}`)}

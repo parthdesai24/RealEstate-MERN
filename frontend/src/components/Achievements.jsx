@@ -132,10 +132,7 @@ const Achievements = () => {
         >
           <h2 className="h2">Our Achievements</h2>
           <p className="py-5 text-white max-w-[47rem]">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-            cupiditate magni quasi earum unde, corrupti quidem illum ea laborum
-            vel tempora dignissimos aspernatur iusto doloribus, totam blanditiis
-            commodi!
+          We take pride in helping people find their dream homes. Over the years, we've built a strong reputation and trust among thousands of happy clients. Here’s what we’ve accomplished:
           </p>
           <div className="flex flex-wrap gap-4">
             {statistics.map((statistic, index) => (
@@ -176,8 +173,7 @@ const Achievements = () => {
               <LiaCertificateSolid />
             </span>
             <span>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio
-              quidem aliquid perspiciatis voluptate.
+            Recognized for excellence, our certifications reflect trust, quality, and commitment to superior standards.
             </span>
           </div>
         </motion.div>

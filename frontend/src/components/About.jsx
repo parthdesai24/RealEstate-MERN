@@ -21,9 +21,7 @@ const About = () => {
             Empowering You to Find Your Dream Home, Effortlessly
           </h2>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione
-            itaque similique reprehenderit harum, sunt enim cupiditate
-            accusantium minima dolorum.
+          Discover the perfect property with ease. Our app is designed to make your real estate journey simple, seamless, and stress-free. Explore, connect, and manage every detail—all in one place.
           </p>
           <div className="flex flex-col gap-6 mt-5">
             <div className="flex gap-3">
@@ -57,9 +55,7 @@ const About = () => {
           Simplifying Your Real Estate Journey Every Step of the Way
           </h2>
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione
-            itaque similique reprehenderit harum, sunt enim cupiditate
-            accusantium minima dolorum.
+          Discover, connect, and manage your property needs with ease. Our app is designed to give you full control over your real estate journey:
           </p>
           <div className="flex flex-col gap-6 mt-5">
             <div className="flex gap-3">

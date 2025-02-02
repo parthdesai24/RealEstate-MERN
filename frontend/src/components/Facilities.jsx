@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { Box, Button, Group, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useMutation } from "react-query";
@@ -15,7 +15,7 @@ const Facilities = ({
   setOpened,
   setActiveStep,
 }) => {
-  const form = useForm({
+  const form = useForm({  
     initialValues: {
       bedrooms: propertyDetails.facilities.bedrooms,
       parkings: propertyDetails.facilities.parkings,
@@ -31,24 +31,17 @@ const Facilities = ({
 
   const { bedrooms, parkings, bathrooms } = form.values;
 
-  const handleSubmit = () => {
-    const { hasErrors } = form.validate();
-    if (!hasErrors) {
-      setPropertyDetails((prev) => ({
-        ...prev,
-        facilities: { bedrooms, parkings, bathrooms },
-      }));
-      mutate();
-    }
-  };
+  const storedUser = localStorage.getItem("user");
+  const parsedUser = JSON.parse(storedUser);
+  const email =  parsedUser?.email;
+  console.log(email)
 
   //upload
-  const { user } = useAuth0();
-  const {
-    userDetails: { token },
-  } = useContext(UserDetailsContext);
-  const { refetch: refetchProperties } = useProperties();
+  // const { user } = useAuth0();
+  const {userDetails} = useContext(UserDetailsContext);
+  const { refetch: refetchProperties } = useProperties()
 
+// console.log(userDetails)
   const { mutate, isLoading } = useMutation({
     mutationFn: () =>
       createResidency(
@@ -56,8 +49,8 @@ const Facilities = ({
           ...propertyDetails,
           facilities: { bedrooms, parkings, bathrooms },
         },
-        token,
-        user?.email
+        `Bearer ${userDetails?.token}`,
+         email
       ),
     onError: ({ response }) =>
       toast.error(response.data.message, { position: "bottom-right" }),
@@ -76,7 +69,7 @@ const Facilities = ({
           parkings: 0,
           bathrooms: 0,
         },
-        userEmail: user?.email,
+        userEmail: userDetails?.email,
       });
       setOpened(false);
       setActiveStep(0);
@@ -84,13 +77,21 @@ const Facilities = ({
     },
   });
 
+  const handleSubmit = () => {
+    const { hasErrors } = form.validate();
+    if (!hasErrors) {
+      setPropertyDetails((prev) => ({
+        ...prev,
+        facilities: { bedrooms, parkings, bathrooms },
+      }));
+      console.log(propertyDetails)
+      mutate();
+    }
+  };
+
   return (
     <Box maw={"30%"} mx="auto" my={"sm"}>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit();
-        }}
       >
         <NumberInput
           withAsterisk
@@ -114,7 +115,7 @@ const Facilities = ({
             <Button variant="default" onClick={prevStep}>
                 Back
             </Button>
-            <Button type="submit" color="green" disabled={isLoading}> 
+            <Button type="button" color="green" disabled={isLoading} onClick={handleSubmit}> 
                 {isLoading ? "Submitting" : "Add Property"}
             </Button>
         </Group>

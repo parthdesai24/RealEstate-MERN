@@ -7,7 +7,7 @@ const ProfileMenu = ({ user, logout }) => {
   return (
     <Menu shadow="md cursor-pointer">
       <Menu.Target>
-        <Avatar src={user?.picture} alt="userImg" radius="xl" />
+        <Avatar src="https://www.psdgraphics.com/file/user-icon.jpg" alt="userImg" radius="xl" />
       </Menu.Target>
       <Menu.Dropdown>
         <Menu.Item onClick={() => navigate('./favourites', {replace: true})}>Favourites</Menu.Item>

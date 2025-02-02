@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { NavLink } from "react-router-dom";
 import AddPropertyModal from "./AddPropertyModal";
-import useAuthCheck from "../hooks/useAuthCheck";
+import UserDetailsContext from "../context/UserDetailsContext";
+// import useAuthCheck from "../hooks/useAuthCheck";
 const Navbar = ({ containerStyles }) => {
   const [modalOpened, setModalOpened] = useState(false);
-  const { validateLogin } = useAuthCheck();
+  // const { validateLogin } = useAuthCheck();
+  const { userDetails } = useContext(UserDetailsContext);
 
   const handleAddPropertyClick = () => {
-    if(validateLogin()){
+    if(userDetails?.token){
       setModalOpened(true)
     }
   }

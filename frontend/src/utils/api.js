@@ -5,17 +5,13 @@ import { toast } from "react-toastify";
 export const api = axios.create({
   baseURL: "real-estate-backned.vercel.app/api",
 });
-const baseURL="https://real-estate-backned.vercel.app/api";
+const baseURL = "http://localhost:3000/api";
 
 export const getAllProperties = async () => {
   try {
-    console.log("apiii", api);
-    const response = await axios.get(
-      `${baseURL}/residency/allresd`,
-      {
-        timeout: 10 * 1000,
-      }
-    );
+    const response = await axios.get(`${baseURL}/residency/allresd`, {
+      timeout: 10 * 1000,
+    });
     if (response.status === 400 || response.status === 500) {
       throw response.data;
     }
@@ -43,21 +39,33 @@ export const getProperty = async (id) => {
   }
 };
 
-export const createUser = async (email, token) => {
-  try {
-    await axios.post(
-      `${baseURL}/user/register`,
-      { email },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-  } catch (error) {
-    toast.error("Something went wrong. Please Try again");
-    throw error;
-  }
+// export const createUser = async (email, token) => {
+//   try {
+//     await axios.post(
+//       `${baseURL}/user/register`,
+//       { email },
+//       {
+//         headers: {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       }
+//     );
+//   } catch (error) {
+//     toast.error("Something went wrong. Please Try again");
+//     throw error;
+//   }
+// };
+
+// Function to register a new user
+export const createUser = async (userData) => {
+  const { data } = await axios.post(`${baseURL}/user/register`, userData);
+  return data;
+};
+
+// // Function to log in a user
+export const loginUser = async (userData) => {
+  const { data } = await axios.post(`${baseURL}/user/login`, userData);
+  return data;
 };
 
 export const bookVisit = async (date, propertyId, email, token) => {

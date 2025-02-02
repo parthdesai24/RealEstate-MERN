@@ -1,5 +1,5 @@
-import React, { Suspense, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Layout from "./components/Layout";
 import Listing from "./pages/Listing";
@@ -11,19 +11,41 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'
 import UserDetailsContext from "./context/UserDetailsContext";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup"
 const App = () => {
   const queryClient = new QueryClient();
   const [userDetails, setUserDetails] = useState({
+    email : "",
     favourites : [],  
     bookings : [],
-    token : null
+    token : localStorage.getItem('token') || null
   })
+  const [user,setUser] = useState(null)
+  
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+// console.log("stores user app",storedUser)
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      // console.log(parsedUser?.user?.email)
+      setUserDetails(prev => ({ ...prev, email: parsedUser?.email }));
+      setUserDetails(prev => ({ ...prev, token: storedToken })); // Set token separately
+    } else {
+      setUserDetails(prev => ({ ...prev, email: "" }));
+      setUserDetails(prev => ({ ...prev, token: null }));
+    }
+  }, []);
+  
   return (
     <UserDetailsContext.Provider value={{userDetails,setUserDetails}}>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Suspense fallback={<div>Loading....</div>}>
           <Routes>
+          <Route path="/login" element={<Login />}  />
+          <Route path="/signup" element={<Signup />}  />
             <Route element={<Layout />}>
               <Route path="/" element={<Home />}  />
               <Route path="/listing">

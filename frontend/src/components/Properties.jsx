@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { VscSettings } from "react-icons/vsc";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,6 +15,9 @@ import { PuffLoader } from "react-spinners";
 const Properties = () => {
   const { data, isError, isLoading } = useProperties();
   // console.log(data)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   if(isError){
     return(
       <div>
@@ -22,6 +25,7 @@ const Properties = () => {
       </div>
     )
   }
+
   if(isLoading){
     return(
       <div className="h-64 flexCenter">

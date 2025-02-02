@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Modal, Stepper } from "@mantine/core";
 import AddLocation from "./AddLocation";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import UploadImage from "./UploadImage";
 import BasicDetails from "./BasicDetails";
 import Facilities from "./Facilities";
+import UserDetailsContext from "../context/UserDetailsContext";
 
 const AddPropertyModal = ({ opened, setOpened }) => {
   const [active, setActive] = useState(0);
-  const { user } = useAuth0();
+  // const { user } = useAuth0();
+  const { userDetails } = useContext(UserDetailsContext);
+  // console.log(userDetails?.token)
   const [propertyDetails, setPropertyDetails] = useState({
     title: "",
     description: "",
@@ -22,7 +25,7 @@ const AddPropertyModal = ({ opened, setOpened }) => {
       bathrooms: 0,
       parkings: 0,
     },
-    userEmail: user?.email,
+    userEmail: userDetails?.email,
   });
 
   const nextStep = () => {

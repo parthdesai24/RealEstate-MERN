@@ -1,24 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa6";
-import useAuthCheck from "../hooks/useAuthCheck";
+// import useAuthCheck from "../hooks/useAuthCheck";
 import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 import UserDetailsContext from "../context/UserDetailsContext";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 import { toFav } from "../utils/api";
 import { checkFavourites, updateFavourites } from "../utils/common";
 
 const HeartBtn = ({ id }) => {
   const [heartColor, setHeartColor] = useState("white");
-  const { validateLogin } = useAuthCheck();
-  const { user } = useAuth0();
+  // const { validateLogin } = useAuthCheck();
+  // const { user } = useAuth0();
   const {
-    userDetails: { token, favourites },
+    userDetails: { token, favourites,email },
     setUserDetails,
   } = useContext(UserDetailsContext);
 
+  // console.log(email)
   const { mutate } = useMutation({
-    mutationFn: () => toFav(id, user?.email, token),
+    mutationFn: () => toFav(id, email, token),
     onSuccess: () => {
       setUserDetails((prev) => ({
         ...prev,
@@ -28,7 +29,7 @@ const HeartBtn = ({ id }) => {
   });
 
   const handleLike = () => {
-    if (validateLogin) {
+    if (token) {
       mutate();
       setHeartColor((prev) => (prev === "#8ac243" ? "white" : "#8ac243"));
     }
@@ -37,7 +38,6 @@ const HeartBtn = ({ id }) => {
   useEffect(() => {
     setHeartColor(() => checkFavourites(id, favourites));
   }, [favourites]);
-//   console.log(heartColor)
   return (
     <FaHeart
       onClick={(e) => {

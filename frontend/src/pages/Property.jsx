@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useProperties from "../hooks/useProperties";
 import { useMutation, useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
@@ -13,8 +13,8 @@ import {
 } from "react-icons/md";
 import { CgRuler } from "react-icons/cg";
 import Map from "../components/Map";
-import useAuthCheck from "../hooks/useAuthCheck";
-import { useAuth0 } from "@auth0/auth0-react";
+// import useAuthCheck from "../hooks/useAuthCheck";
+// import { useAuth0 } from "@auth0/auth0-react";
 import BookingModal from "../components/BookingModal";
 import UserDetailsContext from "../context/UserDetailsContext";
 import { Button } from "@mantine/core";
@@ -23,9 +23,9 @@ import HeartBtn from "../components/HeartBtn";
 
 const Property = () => {
   const [modalOpened, setModalOpened] = useState(false);
-  const { validateLogin } = useAuthCheck();
+  // const { validateLogin } = useAuthCheck();
   const { pathname } = useLocation();
-  const { user } = useAuth0();
+  // const { user } = useAuth0();
   const id = pathname.split("/").slice(-1)[0];
   // console.log(id);
 
@@ -38,8 +38,13 @@ const Property = () => {
     setUserDetails,
   } = useContext(UserDetailsContext);
 
+  const storedUser = localStorage.getItem("user");
+  const parsedUser = JSON.parse(storedUser);
+  const email =  parsedUser?.email;
+  console.log(email)
+
   const { mutate: cancelBooking, isLoading: cancelling } = useMutation({
-    mutationFn: () => removeBooking(id, user?.email, token),
+    mutationFn: () => removeBooking(id, email, token),
     onSuccess: () => {
       setUserDetails((prev) => ({
         ...prev,
@@ -48,6 +53,10 @@ const Property = () => {
       toast.success("Booking cancelled", { position: "bottom-right" });
     },
   });
+
+   useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   if (isLoading) {
     return (
@@ -142,7 +151,7 @@ const Property = () => {
             ) : (
               <Button
                 onClick={() => {
-                  validateLogin() && setModalOpened(true);
+                  token && setModalOpened(true);
                 }}
                 variant="filled"
                 w={"50%"}
@@ -155,7 +164,7 @@ const Property = () => {
               opened={modalOpened}
               setOpened={setModalOpened}
               propertyId={id}
-              email={user?.email}
+              email={email}
             />
           </div>
         </div>

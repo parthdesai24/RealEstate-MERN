@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import Navbar from "./Navbar";
 import { MdMenu, MdClose } from "react-icons/md";
 import { LuUserRound } from "react-icons/lu";
-import { useAuth0 } from "@auth0/auth0-react"
+// import { useAuth0 } from "@auth0/auth0-react"
 import ProfileMenu from "./ProfileMenu";
+import UserDetailsContext from "../context/UserDetailsContext";
 const Header = () => {
   const [active, setActive] = useState(false);
+  const navigate= useNavigate()
   const [menuOpened, setMenuOpened] = useState(false);
   const toggleMenu = (prev) => {
     setMenuOpened((prev) => !prev);
@@ -27,9 +29,16 @@ const Header = () => {
     window.removeEventListener('scroll',handleScroll);
     }
     },[menuOpened]);
-
-    const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0()
     
+  const {userDetails} = useContext(UserDetailsContext)
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    // localStorage.removeItem("access_token_expiry");
+    navigate("/login"); 
+};
+    // const {loginWithRedirect, isAuthenticated, user, logout} = useAuth0()
+    // console.log(userDetails)
   return (
     <header className={`${active ? "py-1 bg-white shadow-md" : "py-2"} max-padd-container fixed top-0 w-full left-0 right-0 z-50 transition-all duration-200`}>
       <div className="flexBetween">
@@ -66,11 +75,14 @@ const Header = () => {
               className="xl:hidden cursor-pointer text-3xl hover:text-secondary"
             />
           )}
-          {!isAuthenticated ? <button onClick={loginWithRedirect} className="flexCenter gap-x-2 !px-5 btn-dark cursor-pointer">
+          {!userDetails.token ? <button onClick={()=>{
+            navigate("/login")
+          }} className="flexCenter gap-x-2 !px-5 btn-dark cursor-pointer">
             <LuUserRound className="text-xl cursor-pointer"/>
             <span>Log In</span>
           </button> : 
-          <ProfileMenu user={user} logout={logout}/>
+          <ProfileMenu  logout={handleLogout}/>
+          
           }
         </div>
       </div>
