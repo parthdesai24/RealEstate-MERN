@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")).render(
     domain="dev-bhxn2s67quane5vn.us.auth0.com"
     clientId="bxSRCS047OE2198o0a6jGbLDLcauyb38"
     authorizationParams={{
-      redirect_uri: "http://localhost:3000",
+      redirect_uri: "https://estatemap.vercel.app",
     }}
     audience="http://localhost:3000"
     scope="openid profile email"
